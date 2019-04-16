@@ -8,16 +8,16 @@
       <div class="form" @mouseleave='showRes=false' @keydown.enter="getSearch">
         <div class="inputBox">
           <input type="text" v-model="search"  placeholder="Search by Address / Txhash / Block / Token">
-          <!-- <div class="results" v-if="showRes">
+          <div class="results">
             <ul class="searchList">
               <li v-for="(item, index) in searchRes" :key="index">
                 <router-link :to="`/${item.type}/${item.value}`" class="searchItem">
-                  <p>{{item.type}}</p>
+                  <p>{{item.name}} ({{item.symbol}})</p>
                   <p>{{item.value}}</p>
                 </router-link>
               </li>
             </ul>
-          </div> -->
+          </div>
         </div>
         <span class="btn" @click="getSearch">{{$t('global.search')}}</span>
       </div>
@@ -40,9 +40,9 @@
         <div class="block">
           <figure><img src="https://etherscan.io/images/svg/icons/icon-8.svg" /></figure>
           <div class="detail">
-            <p class="home_title"><span class="fr">{{$t('global.supply') | upper}}</span>{{$t('index.marketCap') | upper}}</p>
+            <p class="home_title"><span class="fr" v-if="false">{{$t('global.supply') | upper}}</span>{{$t('index.marketCap') | upper}}</p>
             <div class="con">
-              <p><router-link to="" class="fr"><span class="lastBlock">{{ 209 * latestBlock }} Vns</span></router-link></p>
+              <p v-if="false"><router-link to="" class="fr"><span class="lastBlock">{{ 209 * latestBlock }} Vns</span></router-link></p>
               <p><router-link to="" class="lastBlock">${{ currency.market_cap_usd | diliver(6) | fixNum(4)}} Million</router-link></p>
             </div>
           </div>
@@ -60,7 +60,7 @@
                 <span class='time'>({{ lastData.tps }}TPS)</span>
               </p>
               <p>
-                <router-link to="" class="lastBlock">{{ lastData.latestBlock }}</router-link>
+                <router-link to="" class="lastBlock">{{ latestBlock }}</router-link>
                 <router-link to="" class='time'> ({{ lastData.avgBlockTime }}s)</router-link>
               </p>
             </div>
@@ -72,7 +72,7 @@
           <div class="detail">
             <p class="home_title"><span class="fr">{{$t('index.rate') | upper}}</span><span>{{$t('global.difficulty') | upper}}</span></p>
             <div class="con">
-              <p><router-link to="" class="fr"><span class="lastBlock">{{ lastData.avgHashRate }} GH/s</span></router-link></p>
+              <p><router-link to="" class="fr"><span class="lastBlock">4.64MH/s</span></router-link></p>
               <p><router-link to="" class="lastBlock">{{ lastData.difficulty }}</router-link></p>
             </div>
           </div>
@@ -282,8 +282,13 @@ export default {
         data: this.search
       }).then((res) => {
         this.searchRes = res.data.result.related[0]
+        // console.log(this.searchRes)
         if (!this.searchRes) {
-          this.$router.push('/404')
+          // this.$router.push('/404')
+        } else if (this.searchRes.type === 'contract') {
+          this.showRes = true 
+          this.searchRes = JSON.parse(this.searchRes.value)
+          // console.log(this.searchRes)
         } else {
           this.$router.push(`/${this.searchRes.type}/${this.searchRes.value}`)
         }

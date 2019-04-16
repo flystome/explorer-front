@@ -35,7 +35,7 @@
         <ul class="flexBox">
           <li>
             <p>{{$t("global.transactions")}}:</p>
-            <div>{{txnCount}} {{txnCount > 1 ? 'Txns' : 'Txn'}}</div>
+            <div>{{txnCount}} {{txnCount > 1 ? 'Txns' : 'Txn'}}<span v-if="volume">({{ volume }}Vns)</span></div>
           </li>
           <li>
             <p>{{$t('table.mined')}}:</p>
@@ -86,7 +86,7 @@
                   <router-link :to="`/block/${item.blockNumber}`">{{item.blockNumber}}</router-link>
                 </td>
                 <td>
-                  <span class="time">{{item.timestamp | formatAgo}}{{$t("global.ago")}}</span>
+                  <span class="time">{{item.timestamp | formateTime}}</span>
                 </td>
                 <td>
                   <span class="hashLink from" v-if="item.io === 'out'">{{item.from}}</span>
@@ -172,6 +172,7 @@ export default {
       txnCount: 0,
       minedBlocks: '',
       minedUncles: '',
+      volume: "",
       index: 1,
       total: 1,
       size: 1,
@@ -217,6 +218,7 @@ export default {
         this.txnCount = address.txnCount
         this.minedBlocks = address.minedBlocks
         this.minedUncles = address.minedUncles
+        this.volume = address.volume
       })
     },
     getTxns () {
@@ -234,7 +236,7 @@ export default {
         this.txs = address.txns
         this.total = address.total
         this.size = address.size
-        if (this.blocks.length === 0) {
+        if (this.txs.length === 0) {
           this.noRecord = true
         }
       })

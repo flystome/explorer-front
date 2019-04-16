@@ -31,7 +31,7 @@
         <ul class="flexBox">
           <li>
             <p>{{$t("global.contract")}}:</p>
-            <div><router-link :to='`/address/${info.contract}`'>{{info.contract}}</router-link></div>
+            <div>{{info.contract}}</div>
           </li>
           <li>
             <p>{{$t('table.decimals')}}:</p>

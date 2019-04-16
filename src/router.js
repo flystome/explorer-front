@@ -54,6 +54,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "block" */'./views/Rank/miners.vue')
     },
     {
+      path: '/rank/tools',
+      name: 'tools',
+      component: () => import(/* webpackChunkName: "block" */'./views/Rank/tool.vue')
+    },
+    {
       path: '/token',
       name: 'token',
       component: () => import(/* webpackChunkName: "token" */'./views/token.vue')

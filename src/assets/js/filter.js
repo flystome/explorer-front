@@ -26,6 +26,14 @@ let formatAgo = (time) => {
   return str
 }
 
+let formateTime = (time) => {
+  if (!time) return
+  let d = new Date(time*1000)
+  let t = d.toString().split(' ')[4]
+  let date = d.toLocaleDateString()
+  return date + " " + t
+}
+
 let fixNum = (number, precision) => {
   if (!number) return 0
   return (+number).toFixed(precision)
@@ -47,5 +55,6 @@ export {
   formatAgo,
   fixNum,
   diliver,
-  upper
+  upper,
+  formateTime
 }

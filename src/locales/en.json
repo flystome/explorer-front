@@ -26,14 +26,16 @@
     "rank": "Rank",
     "more": "More",
     "noData": "No data",
-    "supply": "Circulating Supply"
+    "supply": "Circulating Supply",
+    "name": "Name"
   },
   "nav": {
     "home": "Home",
     "blockchain": "Blockchain",
     "allBlock": "View Blocks",
     "allTxn": "View Txns",
-    "rank": "Rank"
+    "rank": "Rank",
+    "ecology": "Ecology"
   },
   "tips": {
     "copyAddress": "Copy address to clipboard",
@@ -76,7 +78,10 @@
   },
   "rank": {
     "assets": "Asset ranking",
-    "miners": "Miners list"
+    "miners": "Miners list",
+    "exchange": "Exchange",
+    "minerPool": "Miner Pool",
+    "wallet": "Wallet"
   },
   "table": {
     "txHash": "TxHash",

@@ -34,7 +34,7 @@
                 <router-link :to="`/block/${item.blockNumber}`">{{item.blockNumber}}</router-link>
               </td>
               <td>
-                <span class="time">{{ item.timestamp | formatAgo }}{{$t('global.ago')}}</span>
+                <span class="time">{{ item.timestamp | formateTime }}</span>
               </td>
               <td>
                 <router-link :to="`/address/${item.from}`" class="hashLink from">{{item.from}}</router-link>

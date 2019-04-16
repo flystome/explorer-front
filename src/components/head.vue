@@ -6,13 +6,13 @@
         <i class="fa fa-bars"></i>
       </span>
       <div class="rightCon fr">
-        <div class="form" @keydown.enter="getSearch">
+        <div class="form fr" @keydown.enter="getSearch" v-if="showSearch">
           <div class="inputBox">
             <input type="text" v-model="search"  placeholder="Address / Txhash / Block / Token">
-            <span class="btn" @click="getSearch">{{$t('global.search')}}</span>
+            <span class="btn" @click="getSearch"><i class="fa fa-search"></i></span>
           </div>
         </div>
-        <nav>
+        <nav class="fr">
           <ul v-if="showMenu" class="clearfix fr">
             <li><span @click="reload">{{$t('nav.home')}}</span></li>
             <li @mouseenter="handleMouse('showBlock',true)" @mouseleave="handleMouse('showBlock',false)">
@@ -24,6 +24,9 @@
             </li>
             <li>
               <router-link class="more" to="/rank">{{$t('nav.rank')}}</router-link>
+            </li>
+            <li>
+              <router-link class="more" to="/rank/tools">{{$t('nav.ecology')}}</router-link>
             </li>
             <li @mouseenter="handleMouse('showLang',true)" @mouseleave="handleMouse('showLang',false)">
               <span class="more" @click="showLang=!showLang">{{language}}<i class="fa fa-angle-down"></i></span>
@@ -51,6 +54,7 @@ export default {
       showMenu: true,
       language: '',
       search: "",
+      showSearch: true,
       languages: {
         zh: '中文',
         en: 'English'
@@ -58,6 +62,9 @@ export default {
     }
   },
   created () {
+    if (this.$route.name==='home') {
+      this.showSearch = false
+    }
     document.addEventListener('click', (e) => {
       if (!this.$el.contains(e.target)) {
         if (this.isMobile) {
@@ -123,7 +130,8 @@ export default {
     }
   },
   watch: {
-    '$route' () {
+    '$route' (val) {
+      this.showSearch = val.name!=='home'
       if (this.isMobile) {
         this.showMenu = false
         this.resetNav()
@@ -210,7 +218,7 @@ export default {
     }
     .form {
       float: right;
-      width: 420px;
+      width: 360px;
       height: 36px;
       margin-top: 10px;
       .inputBox {
@@ -228,11 +236,11 @@ export default {
           height: 36px;
           width: 100%;
           border: 1px solid #d5dae2;
-          border-radius: .25rem;
+          border-radius: 4px 0 0 4px;
           transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
         }
         .btn {
-          width: 60px;
+          width: 50px;
           background: #3498db;
           text-align: center;
           line-height: 36px;
@@ -247,6 +255,17 @@ export default {
     }
   }
   @media (max-width: 992px) {
+    .rightCon {
+      padding-bottom: 10px;
+      width: 100%;
+      margin: 0 auto;
+      float: none;
+      .form {
+        width: 96%;
+        margin: 10px auto 0;
+        float: none;
+      }
+    }
     .isMobile {
       position: relative;
       z-index: 20;

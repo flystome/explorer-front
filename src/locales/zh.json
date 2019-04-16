@@ -26,14 +26,16 @@
     "rank": "名次",
     "more": "更多",
     "noData": "暂无数据",
-    "supply": "流通量"
+    "supply": "流通量",
+    "name": "名称"
   },
   "nav": {
     "home": "首页",
     "blockchain": "区块链",
     "allBlock": "查看所有块",
     "allTxn": "查看所有交易",
-    "rank": "排行榜"
+    "rank": "排行榜",
+    "ecology": "生态"
   },
   "tips": {
     "copyAddress": "复制到剪贴板",
@@ -78,7 +80,10 @@
   },
   "rank": {
     "assets": "资产排行榜",
-    "miners": "矿工排行榜"
+    "miners": "矿工排行榜",
+    "exchange": "交易所",
+    "minerPool": "矿池",
+    "wallet": "钱包"
   },
   "table": {
     "txHash": "交易哈希",
