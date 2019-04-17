@@ -31,7 +31,7 @@
                 <router-link :to="`/txn/${item.hash}`" class="hashLink">{{item.hash}}</router-link>
               </td>
               <td>
-                <router-link :to="`/block/${item.blockNumber}`">{{item.blockNumber}}</router-link>
+                <router-link :to="`/block/${item.blockNumber}`">{{item.blockNumber | formatNumber}}</router-link>
               </td>
               <td>
                 <span class="time">{{ item.timestamp | formateTime }}</span>
@@ -44,7 +44,7 @@
                 <router-link :to="`/address/${item.to}`" class="hashLink to">{{item.to}}</router-link>
               </td>
               <td>
-                <span>{{item.value}} Vns</span>
+                <span>{{item.value | formatNumber}} Vns</span>
               </td>
               <td>
                 <span>{{item.txnFee}}</span>

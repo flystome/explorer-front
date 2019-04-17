@@ -9,6 +9,17 @@
         <div class="form fr" @keydown.enter="getSearch" v-if="showSearch">
           <div class="inputBox">
             <input type="text" v-model="search"  placeholder="Address / Txhash / Block / Token">
+            <div class="results" v-if="showRes">
+              <ul class="searchList">
+                <li v-for="(item, index) in searchRes" :key="index">
+                  <router-link :to="`/${item.type}/${item.value}`" class="searchItem">
+                    <p v-if="item.name">{{item.name | upper}} <span v-if="item.symbol">({{item.symbol | upper}})</span></p>
+                    <p class="maxW"><span v-if="item.type==='token'">TOKEN:</span> {{item.value}}</p>
+                    <p class="cap" v-if="item.type!=='token'">{{ item.type }}</p>
+                  </router-link>
+                </li>
+              </ul>
+            </div>
             <span class="btn" @click="getSearch"><i class="fa fa-search"></i></span>
           </div>
         </div>
@@ -53,6 +64,7 @@ export default {
       isMobile: false,
       showMenu: true,
       language: '',
+      showRes: false,
       search: "",
       showSearch: true,
       languages: {
@@ -70,6 +82,7 @@ export default {
         if (this.isMobile) {
           this.showMenu = false
         }
+        this.showRes =false
       }
     })
     var lang = localStorage.getItem('language')
@@ -114,6 +127,7 @@ export default {
     },
     getSearch () {
       if (!this.search) return
+      this.showRes = false
       this.$http({
         method: 'post',
         url: '/api/vns/search',
@@ -123,6 +137,9 @@ export default {
         this.searchRes = res.data.result.related[0]
         if (!this.searchRes) {
           this.$router.push('/404')
+        } else if (this.searchRes.type === 'intelligentQuery') {
+          this.showRes = true
+          this.searchRes = this.searchRes.value
         } else {
           this.$router.push(`/${this.searchRes.type}/${this.searchRes.value}`)
         }
@@ -247,6 +264,40 @@ export default {
           border-radius: 0 4px 4px 0;
           color: #ffffff;
           cursor: pointer;
+        }
+      }
+      .results {
+        position: absolute;
+        top: 36px;
+        left: 0;
+        width: 100%;
+        margin-top: 0px;
+        border: thin solid #e7eaf3;
+        border-top: 0;
+        border-radius: .125rem;
+        box-shadow: 0 2px 16px 8px rgba(140,152,164,.135);
+        background: #fff;
+        max-height: 200px;
+        overflow: scroll;
+        li {
+          padding: 4px 8px;
+          border-bottom: 1px solid #e7eaf3;
+          .searchItem {
+            display: block;
+            padding: 6px 12px;
+            &:hover {
+              background-color: #3498db;
+              border-radius: 2px;
+              p {
+                color: #fff;
+              }
+            }
+          }
+        }
+        p {
+          padding-bottom: 0;
+          line-height: 20px;
+          color: #333333;
         }
       }
     }

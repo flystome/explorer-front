@@ -6,14 +6,15 @@
         <span class="fr">{{$t('index.quickLink')}}: <router-link to='/token'>VRC-20 Tokens</router-link></span>
       </p>
       <div class="form" @mouseleave='showRes=false' @keydown.enter="getSearch">
-        <div class="inputBox">
+        <div class="inputBox" >
           <input type="text" v-model="search"  placeholder="Search by Address / Txhash / Block / Token">
-          <div class="results">
+          <div class="results" v-if="showRes">
             <ul class="searchList">
               <li v-for="(item, index) in searchRes" :key="index">
                 <router-link :to="`/${item.type}/${item.value}`" class="searchItem">
-                  <p>{{item.name}} ({{item.symbol}})</p>
-                  <p>{{item.value}}</p>
+                  <p v-if="item.name">{{item.name | upper}} <span v-if="item.symbol">({{item.symbol | upper}})</span></p>
+                  <p><span v-if="item.type==='token'">TOKEN:</span> {{item.value}}</p>
+                  <p class="cap" v-if="item.type!=='token'">{{ item.type }}</p>
                 </router-link>
               </li>
             </ul>
@@ -56,11 +57,11 @@
             <p class="home_title"><span class="fr">{{$t('global.transactions') | upper}}</span><span>{{$t('index.lastBlock') | upper}}</span></p>
             <div class="con">
               <p class="fr">
-                <router-link to="" class="lastBlock">{{ lastData.ttc }}</router-link>
+                <router-link to="" class="lastBlock">{{ lastData.ttc | formatNumber}}</router-link>
                 <span class='time'>({{ lastData.tps }}TPS)</span>
               </p>
               <p>
-                <router-link to="" class="lastBlock">{{ latestBlock }}</router-link>
+                <router-link to="" class="lastBlock">{{ latestBlock | formatNumber }}</router-link>
                 <router-link to="" class='time'> ({{ lastData.avgBlockTime }}s)</router-link>
               </p>
             </div>
@@ -73,7 +74,7 @@
             <p class="home_title"><span class="fr">{{$t('index.rate') | upper}}</span><span>{{$t('global.difficulty') | upper}}</span></p>
             <div class="con">
               <p><router-link to="" class="fr"><span class="lastBlock">4.64MH/s</span></router-link></p>
-              <p><router-link to="" class="lastBlock">{{ lastData.difficulty }}</router-link></p>
+              <p><router-link to="" class="lastBlock">{{ lastData.difficulty | formatNumber }}</router-link></p>
             </div>
           </div>
         </div>
@@ -95,7 +96,7 @@
                 <div class="flex1">
                   <div class="bk">Bk</div>
                   <div class="bkNo">
-                    <router-link :to="`/block/${item.number}`">{{ item.number }}</router-link>
+                    <router-link :to="`/block/${item.number}`">{{ item.number | formatNumber }}</router-link>
                     <p>{{ item.t | formatAgo}} ago</p>
                   </div>
                 </div>
@@ -176,6 +177,11 @@ export default {
     this.init()
     this.wslink()
     this.wsListener()
+    document.addEventListener('click', (e) => {
+      if (!this.$el.contains(e.target) ) {
+        this.showRes =false
+      }
+    })
     setInterval(() => {
       this.blocks.splice()
       this.txns.splice()
@@ -189,7 +195,6 @@ export default {
   },
   methods: {
     init () {
-      // console.log(1)
       this.getLastestData()
       this.getBlocks()
       this.getTxn()
@@ -249,7 +254,6 @@ export default {
       this.ws.onopen = () => {
         // eslint-disable-next-line
         console.log('Connection open ...');
-        // this.ws.send('');
       }
       this.ws.onmessage = (evt) => {
         var res = (JSON.parse(evt.data)).result
@@ -260,6 +264,7 @@ export default {
           }
         }
         var block = res.block
+        block.txnCount = res.block.txns.length
         this.lastData.latestBlock = block.number
         delete block.txns
         this.blocks.unshift(block)
@@ -282,13 +287,11 @@ export default {
         data: this.search
       }).then((res) => {
         this.searchRes = res.data.result.related[0]
-        // console.log(this.searchRes)
         if (!this.searchRes) {
-          // this.$router.push('/404')
-        } else if (this.searchRes.type === 'contract') {
+          this.$router.push('/404')
+        } else if (this.searchRes.type === 'intelligentQuery') {
           this.showRes = true 
-          this.searchRes = JSON.parse(this.searchRes.value)
-          // console.log(this.searchRes)
+          this.searchRes = this.searchRes.value
         } else {
           this.$router.push(`/${this.searchRes.type}/${this.searchRes.value}`)
         }

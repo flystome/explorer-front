@@ -80,6 +80,13 @@ th,td {
   display: inline-block;
   vertical-align: middle;
 }
+.maxW {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
 .red {
   color: #de4437!important;
 }
@@ -114,6 +121,9 @@ th,td {
 }
 .fwb {
   font-weight: bold;
+}
+.cap {
+  text-transform: capitalize;
 }
 
 .w1200 {

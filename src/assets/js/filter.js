@@ -1,6 +1,9 @@
 import bigNumber from "bignumber.js";
 let formatNumber = (number) => {
-  return (''+number).replace(/(\d)(?=(\d{3})+$)/g, "$1,")
+  if (!number) return
+  var str = "" + number
+  var reg = str.indexOf(".") > -1 ? /(\d)(?=(\d{3})+\.)/g : /(\d)(?=(?:\d{3})+$)/g;
+  return str.replace(reg,"$1,");
 };
 
 let formatAgo = (time) => {

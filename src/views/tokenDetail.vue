@@ -17,7 +17,7 @@
             </div>
           </li>
           <li>
-            <p>{{$t('global.holder')}}:</p>
+            <p>{{$t('table.holder')}}:</p>
             <div>{{info.holders}}</div>
           </li>
           <li>

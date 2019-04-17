@@ -18,11 +18,11 @@
         <ul class="flexBox">
           <li>
             <p>{{$t('global.balance')}}:</p>
-            <div>{{balance | fixNum(6)}} Vns</div>
+            <div>{{balance | fixNum(6) | formatNumber}} Vns</div>
           </li>
           <li>
             <p>{{$t('table.vnsVal')}}:</p>
-            <div>${{currency.price_usd * balance | fixNum(6)}}</div>
+            <div>${{currency.price_usd * balance | fixNum(6) | formatNumber}}</div>
           </li>
           <li>
             <p>{{$t('global.token')}}:</p>
@@ -35,7 +35,7 @@
         <ul class="flexBox">
           <li>
             <p>{{$t("global.transactions")}}:</p>
-            <div>{{txnCount}} {{txnCount > 1 ? 'Txns' : 'Txn'}}<span v-if="volume">({{ volume }}Vns)</span></div>
+            <div>{{txnCount | formatNumber}} {{txnCount > 1 ? 'Txns' : 'Txn'}}<span v-if="volume">({{ volume  | formatNumber}}Vns)</span></div>
           </li>
           <li>
             <p>{{$t('table.mined')}}:</p>
@@ -44,6 +44,10 @@
               <span v-if="minedBlocks && minedUncles">{{$t("global.and")}}</span>
               <span v-if="minedUncles">{{minedUncles}}{{$t('table.uncles')}}</span>
             </div>
+          </li>
+          <li>
+            <p>{{$t('global.rank')}}</p>
+            <div>{{rank}}</div>
           </li>
         </ul>
       </div>
@@ -83,7 +87,7 @@
                   <router-link :to="`/txn/${item.hash}`" class="hashLink">{{item.hash}}</router-link>
                 </td>
                 <td>
-                  <router-link :to="`/block/${item.blockNumber}`">{{item.blockNumber}}</router-link>
+                  <router-link :to="`/block/${item.blockNumber}`">{{item.blockNumber | formatNumber}}</router-link>
                 </td>
                 <td>
                   <span class="time">{{item.timestamp | formateTime}}</span>
@@ -173,6 +177,7 @@ export default {
       minedBlocks: '',
       minedUncles: '',
       volume: "",
+      rank: "",
       index: 1,
       total: 1,
       size: 1,
@@ -219,6 +224,7 @@ export default {
         this.minedBlocks = address.minedBlocks
         this.minedUncles = address.minedUncles
         this.volume = address.volume
+        this.rank = address.rank
       })
     },
     getTxns () {

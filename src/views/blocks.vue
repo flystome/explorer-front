@@ -3,7 +3,7 @@
     <h3>{{$t('global.blocks')}}</h3>
     <div class="box">
       <div class="table_desc">
-        <p>{{$t('global.block')}} #{{blocks[blocks.length - 1] && blocks[blocks.length - 1].number}} {{$t("global.to")}} #{{blocks[0] && blocks[0].number}} ({{$t('desc.totalBlock', {total: total})}})</p>
+        <p>{{$t('global.block')}} #{{blocks[blocks.length - 1] && blocks[blocks.length - 1].number | formatNumber}} {{$t("global.to")}} #{{blocks[0] && blocks[0].number | formatNumber}} ({{$t('desc.totalBlock', {total: total})}})</p>
         <page :total='size' :index='curIndex' url='/blocks' class="mobile"></page>
       </div>
       <div class="wrap">
@@ -30,7 +30,7 @@
           <tbody>
             <tr v-for="(item, index) in blocks" :key='index'>
               <td>
-                <router-link :to="`/block/${item.number}`">{{item.number}}</router-link>
+                <router-link :to="`/block/${item.number}`">{{item.number | formatNumber}}</router-link>
               </td>
               <td>
                 <span>{{ item.timestamp | formateTime}}</span>
@@ -46,13 +46,13 @@
               </td>
 
               <td>
-                <p class="dbLine">{{ item.gasUsed }} ({{ item.gasUsed * 100/item.gasLimit | fixNum(2) }}%)</p>
+                <p class="dbLine">{{ item.gasUsed | formatNumber}} ({{ item.gasUsed * 100/item.gasLimit | fixNum(2) }}%)</p>
                 <div class="perBg">
                   <div class="per" :style="{width: item.gasUsed * 100/item.gasLimit +'%'}"></div>
                 </div>
               </td>
               <td>
-                <span>{{ item.gasLimit }}</span>
+                <span>{{ item.gasLimit | formatNumber }}</span>
               </td>
               <td>
                 <span>{{item.avgGasPrice | diliver(18)}}</span>

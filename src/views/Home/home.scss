@@ -62,14 +62,17 @@
     cursor: pointer;
   }
   .results {
-    display: none;
     margin-top: 0px;
     border: thin solid #e7eaf3;
+    border-top: 0;
     border-radius: .125rem;
     box-shadow: 0 2px 16px 8px rgba(140,152,164,.135);
     background: #fff;
+    max-height: 200px;
+    overflow: scroll;
     li {
       padding: 4px 8px;
+      border-bottom: 1px solid #e7eaf3;
       .searchItem {
         display: block;
         padding: 6px 12px;

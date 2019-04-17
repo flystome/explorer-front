@@ -109,7 +109,7 @@
         <div class="detailBox">
           <p class="name mobile">{{$t('global.nonce')}}<span class="position">{{$t('txn.position')}}</span></p>
           <p class="detail">
-            <span>{{tx.nonce}}</span><span class="position">{{tx.position}}</span>
+            <span>{{tx.nonce | formatNumber}}</span><span class="position">{{tx.position}}</span>
           </p>
         </div>
         <div class="detailBox detailArea">

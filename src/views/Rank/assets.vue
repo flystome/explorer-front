@@ -2,8 +2,12 @@
   <section id="miners" class="w1200">
     <h3>{{$t('rank.assets')}}</h3>
     <div class="box">
+      <div class="table_desc">
+        <!-- <p>{{$t('global.block')}} #{{blocks[blocks.length - 1] && blocks[blocks.length - 1].number | formatNumber}} {{$t("global.to")}} #{{blocks[0] && blocks[0].number | formatNumber}} ({{$t('desc.totalBlock', {total: total})}})</p> -->
+        <page :total='size' :index='curIndex' url='/rank/assets' class="mobile fr"></page>
+      </div>
       <div class="wrap">
-        <div class="loading" v-if="blocks.length===0 && !noRecord">
+        <div class="loading" v-if="assets.length===0 && !noRecord">
           <img src="~@/assets/img/loading.gif">
         </div>
         <div class="noRecord" v-else-if="noRecord">
@@ -18,7 +22,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item, index) in blocks" :key='index'>
+            <tr v-for="(item, index) in assets" :key='index'>
               <td>
                 <span>{{ item.rank }}</span>
               </td>
@@ -41,7 +45,7 @@ export default {
   name: 'miners',
   data () {
     return {
-      blocks: [],
+      assets: [],
       total: 0,
       size: 0,
       curIndex: 1,
@@ -62,11 +66,22 @@ export default {
           'limit': 50
         }
       }).then(res => {
-        this.blocks = res.data.result.ranks
-        if (this.blocks.length === 0) {
+        var result = res.data.result
+        this.assets = result.ranks
+        this.total = result.total
+        this.size = result.size
+        if (this.assets.length === 0) {
           this.noRecord = true
         }
       })
+    }
+  },
+  watch: {
+    '$route' (val) {
+      if (val.query.page !== this.curIndex) {
+        this.curIndex = val.query.page
+        this.getData()
+      }
     }
   }
 }
@@ -82,14 +97,9 @@ export default {
   .box {
     padding: 10px;
   }
-  // .table_desc {
-  //   display: flex;
-  //   margin-bottom: 15px;
-  //   p {
-  //     flex: 1;
-  //     font-size: 13px;
-  //   }
-  // }
+  .table_desc {
+    display: block;
+  }
   table {
     width: 100%;
     th {
