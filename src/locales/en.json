@@ -115,6 +115,7 @@
     "forBlock": "For Block",
     "totalBlock": "Total of {total} block",
     "listTxn": "{length} transactions from a total of {total} transactions",
+    "listHolder": "A total of {total} holders found",
     "interval": " in {interval} secs"
   },
   "token": {

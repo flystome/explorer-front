@@ -115,7 +115,8 @@
     "totalTxn": "总共查到{total}笔交易",
     "forBlock": "For Block",
     "totalBlock": "总共{total}个块",
-    "listTxn": "{length} transactions from a total of {total} transactions",
+    "listTxn": "从{total}比交易中查到的{length}比交易",
+    "listHolder": "总共查到{total}个持币地址",
     "interval": "在{interval}秒中"
   },
   "token": {

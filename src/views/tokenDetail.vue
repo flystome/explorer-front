@@ -50,7 +50,7 @@
       </ul>
       <div class="bd" v-if="headIndex === 0">
         <div class="table_desc">
-          <p>{{$t('desc.listTxn', {length: contents[headIndex].data.length, total: contents[headIndex].total})}}</p>
+          <p>{{$t('desc.totalTxn', {total: contents[headIndex].total})}}</p>
           <page :total='contents[headIndex].size' :index='contents[headIndex].index' :url='`/token/${id}`' class="mobile"></page>        
         </div>
         <div class="wrap">
@@ -96,7 +96,7 @@
       </div>
       <div class="bd" v-if="headIndex === 1">
         <div class="table_desc">
-          <p>{{$t('desc.listTxn', {length: contents[headIndex].data.length, total: contents[headIndex].total})}}</p>
+          <p>{{$t('desc.listHolder', {total: contents[headIndex].total})}}</p>
           <page :total='contents[headIndex].size' :index='contents[headIndex].index' :url='`/token/${id}`' class="mobile"></page>        
         </div>
         <div class="wrap">
@@ -122,7 +122,7 @@
                 </td>
                 <td>
                   <i class="fa fa-exclamation-circle warn" v-if="item.status==='0'"></i>
-                  <router-link :to="`/txn/${item.address}`">{{item.address}}</router-link>
+                  <router-link to="">{{item.address}}</router-link>
                 </td>
                 <td>
                   <span>{{item.asset}}</span>
