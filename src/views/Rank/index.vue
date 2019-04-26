@@ -22,7 +22,7 @@
               <div class="address">
                 <router-link class="hashLink" :to="`/address/${item.address}`">{{ item.address }}</router-link>
               </div>
-              <div class="assets">{{ item.asset | fixNum(4)}} <span>Vns</span></div>
+              <div class="assets">{{ item.asset | fixNum(4) | formatNumber}} <span>Vns</span></div>
             </li>
           </ul>
         </div>
@@ -51,8 +51,8 @@
               <div class="address">
                 <router-link class="hashLink" :to="`/address/${item.address}`">{{ item.address }}</router-link>
               </div>
-              <div class="assets">{{ item.blockReward }} <span>Vns</span></div>
-              <div class="assets">{{ item.uncleReward }} <span>Vns</span></div>
+              <div class="assets">{{ item.blockReward | formatNumber }} <span>Vns</span></div>
+              <div class="assets">{{ item.uncleReward | formatNumber }} <span>Vns</span></div>
             </li>
           </ul>
         </div>

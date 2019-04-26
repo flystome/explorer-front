@@ -96,7 +96,7 @@
     "moreInfo": "More Info",
     "mined": "Mined",
     "transfer": "Transfers",
-    "quantity": "quantity",
+    "quantity": "Quantity",
     "holder": "Holders",
     "supply": "Total Supply",
     "decimals": "Decimals",
@@ -104,7 +104,8 @@
     "address": "Address",
     "asset": "Asset",
     "change": "Change",
-    "volume": "Volume"
+    "volume": "Volume",
+    "percent": "Percentage"
   },
   "desc": {
     "transactions": "Transactions",

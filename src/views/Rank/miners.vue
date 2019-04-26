@@ -32,13 +32,13 @@
                 <router-link :to="`/address/${item.address}`">{{item.address}}</router-link>
               </td>
               <td>
-                <span>{{item.blockReward}} Vns</span>
+                <span>{{item.blockReward | formatNumber}} Vns</span>
               </td>
               <td>
-                <span>{{item.uncleReward}} Vns</span>
+                <span>{{item.uncleReward | formatNumber}} Vns</span>
               </td>
               <td>
-                <span>{{item.totalReward}} Vns</span>
+                <span>{{item.totalReward | formatNumber}} Vns</span>
               </td>
             </tr>
           </tbody>

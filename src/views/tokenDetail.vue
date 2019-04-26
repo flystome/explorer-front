@@ -46,18 +46,18 @@
     </div>
     <div class="tab box">
       <ul class="hd clearfix">
-        <li v-for="(item, index) in heads" :key="item" @click="headIndex=index" :class="{'cur': headIndex === index}">{{item}}</li>
+        <li v-for="(item, index) in contents" :key="item.head" @click="headIndex=index" :class="{'cur': headIndex === index}" v-t="`table.${item.head}`"></li>
       </ul>
       <div class="bd" v-if="headIndex === 0">
         <div class="table_desc">
-          <p>{{$t('desc.listTxn', {length: transfers.length, total: total})}}</p>
-          <page :total='size' :index='index' :url='`/token/${id}`' class="mobile"></page>        
+          <p>{{$t('desc.listTxn', {length: contents[headIndex].data.length, total: contents[headIndex].total})}}</p>
+          <page :total='contents[headIndex].size' :index='contents[headIndex].index' :url='`/token/${id}`' class="mobile"></page>        
         </div>
         <div class="wrap">
-          <div class="loading" v-if="transfers.length===0 && !noRecord">
+          <div class="loading" v-if="contents[headIndex].data.length===0 && !contents[headIndex].noRecord">
             <img src="~@/assets/img/loading.gif">
           </div>
-          <div class="noRecord" v-else-if="noRecord">
+          <div class="noRecord" v-else-if="contents[headIndex].noRecord">
             <p>{{$t('global.noData')}}</p>
           </div>
           <table cellpadding="0" v-else>
@@ -71,7 +71,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in transfers" :key='item.hash'>
+              <tr v-for="item in contents[headIndex].data" :key='item.hash'>
                 <td>
                   <i class="fa fa-exclamation-circle warn" v-if="item.status==='0'"></i>
                   <router-link :to="`/txn/${item.hash}`" class="hashLink">{{item.hash}}</router-link>
@@ -94,6 +94,47 @@
           </table>
         </div>
       </div>
+      <div class="bd" v-if="headIndex === 1">
+        <div class="table_desc">
+          <p>{{$t('desc.listTxn', {length: contents[headIndex].data.length, total: contents[headIndex].total})}}</p>
+          <page :total='contents[headIndex].size' :index='contents[headIndex].index' :url='`/token/${id}`' class="mobile"></page>        
+        </div>
+        <div class="wrap">
+          <div class="loading" v-if="contents[headIndex].data.length===0 && !contents[headIndex].noRecord">
+            <img src="~@/assets/img/loading.gif">
+          </div>
+          <div class="noRecord" v-else-if="contents[headIndex].noRecord">
+            <p>{{$t('global.noData')}}</p>
+          </div>
+          <table cellpadding="0" v-else>
+            <thead>
+              <tr>
+                <th>{{$t("global.rank")}}</th>
+                <th>{{$t("table.address")}}</th>
+                <th>{{$t("table.quantity")}}</th>
+                <th>{{$t("table.percent")}}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(item, index) in contents[headIndex].data" :key='item.hash'>
+                <td>
+                  <span class="time">{{index+1}}</span>
+                </td>
+                <td>
+                  <i class="fa fa-exclamation-circle warn" v-if="item.status==='0'"></i>
+                  <router-link :to="`/txn/${item.address}`">{{item.address}}</router-link>
+                </td>
+                <td>
+                  <span>{{item.asset}}</span>
+                </td>
+                <td>
+                  {{item.percentage | fixNum(3)}}%
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </section>
 </template>
@@ -104,15 +145,31 @@ export default {
   data () {
     return {
       headIndex: 0,
-      heads: ['Transactions'],
-      // heads: ['Transactions', 'Erc20 Token Txns'],
+      contents: [
+        {
+          head: 'transfer',
+          data: [],
+          url: "/api/vns/contract/transfersList",
+          index: 1,
+          total: 1,
+          size: 1,
+          noRecord: false
+        },
+        {
+          head: 'holder',
+          data: [],
+          url: "/api/vns/contract/holderList",
+          index: 1,
+          total: 1,
+          size: 1,
+          noRecord: false
+        }
+      ],
       id: '',
-      transfers: [{}],
+      transfers: [],
+      holders: [],
       info: {},
       balance: 0,
-      index: 1,
-      total: 1,
-      size: 1,
       currency: '',
       noRecord: false
     }
@@ -120,7 +177,7 @@ export default {
   created () {
     this.id = this.$route.params.id
     this.getInfo()
-    this.getTokens()
+    this.getTokens(this.contents[0])
     this.getCurrency()
   },
   methods: {
@@ -137,23 +194,23 @@ export default {
         this.info = result.info
       })
     },
-    getTokens () {
+    getTokens (obj) {
       this.$http({
         method: 'post',
-        url: `/api/vns/contract/transfersList`,
+        url: obj.url,
         dataType: 'json',
         data: {
-          page: this.index,
+          page: obj.index,
           limit: 50,
           contract: this.id
         }
       }).then((res) => {
         var result = res.data.result
-        this.transfers = result.transfers
-        this.total = result.total
-        this.size = result.size
-        if (this.transfers.length === 0) {
-          this.noRecord = true
+        obj.data = result[obj.head+'s']
+        obj.total = result.total
+        obj.size = result.size
+        if (!obj.data || (obj.data && obj.data.length === 0)) {
+          obj.noRecord = true
         }
       })
     },
@@ -175,12 +232,19 @@ export default {
     '$route' (val) {
       if (val.params.id !== this.id) {
         this.id = val.params.id
-        this.index = 1
+        this.contents[0].index = 1
         this.getInfo()
         this.getTokens()
       } else if (val.query.page && val.query.page !== this.index) {
-        this.index = val.query.page
-        this.getTokens()
+        this.contents[this.headIndex].index = val.query.page
+        this.getTokens(this.contents[this.headIndex])
+      }
+    },
+    headIndex (val, oldVal) {
+      if (val !== oldVal) {
+        if (this.contents[val].data.length === 0) {
+          this.getTokens(this.contents[val])
+        }
       }
     }
   }

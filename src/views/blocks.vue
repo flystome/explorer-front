@@ -105,7 +105,6 @@ export default {
   },
   watch: {
     '$route' (val) {
-      // console.log(val)
       if (val.query.page !== this.curIndex) {
         this.curIndex = val.query.page
         this.getData()

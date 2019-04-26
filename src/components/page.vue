@@ -3,7 +3,7 @@
     <router-link :to="`${url}?page=1`" :class="{'clickAble': curIndex !== 1}">{{$t('page.first')}}</router-link>
     <router-link :to="`${url}?page=${prev}`" :class="{'clickAble': curIndex !== 1}"><i class="fa fa-angle-left"></i></router-link>
     <span>Page {{curIndex}} of {{total}}</span>
-    <router-link :to="`${url}?page=${next}`" :class="{'clickAble': +total && next !== +total}"><i class="fa fa-angle-right"></i></router-link>
+    <router-link :to="`${url}?page=${next}`" :class="{'clickAble': +total > 1 && next !== +total}"><i class="fa fa-angle-right"></i></router-link>
     <router-link :to="`${url}?page=${total}`" :class="{'clickAble': curIndex !== +total && +total}">{{$t('page.last')}}</router-link>
   </section>
 </template>

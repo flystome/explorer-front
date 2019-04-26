@@ -30,7 +30,7 @@
                 <router-link :to="`/address/${item.address}`">{{item.address}}</router-link>
               </td>
               <td>
-                <span>{{item.asset}} Vns</span>
+                <span>{{item.asset | formatNumber}} Vns</span>
               </td>
             </tr>
           </tbody>

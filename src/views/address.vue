@@ -102,7 +102,7 @@
                   <router-link :to="`/address/${item.to}`" v-else class="hashLink to">{{item.to}}</router-link>
                 </td>
                 <td>
-                  <span>{{item.value}} Vns</span>
+                  <span>{{item.value | formatNumber}} Vns</span>
                 </td>
                 <td>
                   <span>{{item.txnFee}}</span>

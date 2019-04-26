@@ -15,7 +15,7 @@
         <div class="detailBox">
           <p class="name">{{$t('block.height')}}:</p>
           <div class="detail">
-            <span>{{block.number | formatNumber}}</span>
+            <span>{{block.number}}</span>
             <router-link :to="`/block/${block.number - 1}`" class="changeblock" :class="{'disable': disable}">
               <i class="fa fa-angle-left"></i>
             </router-link>

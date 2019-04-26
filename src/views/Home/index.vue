@@ -41,9 +41,9 @@
         <div class="block">
           <figure><img src="https://etherscan.io/images/svg/icons/icon-8.svg" /></figure>
           <div class="detail">
-            <p class="home_title"><span class="fr" v-if="false">{{$t('global.supply') | upper}}</span>{{$t('index.marketCap') | upper}}</p>
+            <p class="home_title"><span class="fr">{{$t('global.supply') | upper}}</span>{{$t('index.marketCap') | upper}}</p>
             <div class="con">
-              <p v-if="false"><router-link to="" class="fr"><span class="lastBlock">{{ 209 * latestBlock }} Vns</span></router-link></p>
+              <p><router-link to="" class="fr"><span class="lastBlock">{{ lastData.circulation | formatNumber}} Vns</span></router-link></p>
               <p><router-link to="" class="lastBlock">${{ currency.market_cap_usd | diliver(6) | fixNum(4)}} Million</router-link></p>
             </div>
           </div>
@@ -96,7 +96,7 @@
                 <div class="flex1">
                   <div class="bk">Bk</div>
                   <div class="bkNo">
-                    <router-link :to="`/block/${item.number}`">{{ item.number | formatNumber }}</router-link>
+                    <router-link :to="`/block/${item.number}`">{{ item.number }}</router-link>
                     <p>{{ item.t | formatAgo}} ago</p>
                   </div>
                 </div>
