@@ -23,7 +23,7 @@
               <th><span>{{$t('table.change')}}(%)</span></th>
               <th><span>{{$t('table.volume')}}(24H)</span></th>
               <th><span>{{$t('index.marketCap')}}</span></th>
-              <th><span>{{$t('global.holder')}}</span></th>
+              <th><span>{{$t('tbale.holder')}}</span></th>
             </thead>
             <tbody>
               <tr v-for="(token, index) in tokens" :key="index">
