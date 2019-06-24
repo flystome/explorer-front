@@ -236,7 +236,7 @@ export default {
       })
     },
     wslink () {
-      this.ws = new WebSocket('ws://120.27.232.146:8081/ws?token=Yigo0LD9I7') 
+      this.ws = new WebSocket('ws://120.27.232.146:8411/ws?token=Yigo0LD9I7') 
     },
     getCurrency () {
       this.$http({

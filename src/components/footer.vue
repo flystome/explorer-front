@@ -31,8 +31,10 @@
     </div>
     <div class="donate w1200">
       <router-link to="">VNSBlock © 2019 (B)</router-link>
-      <router-link to="/address/0x7a7aa1489a3d8dc6e4538bf8e79167acaefc90fd">{{$t('footer.donate')}} 
-        <span id="id">0x7a7aa1489a3d8dc6e4538bf8e79167acaefc90fd</span>
+      <span>
+        <router-link to="/address/0x7a7aa1489a3d8dc6e4538bf8e79167acaefc90fd">{{$t('footer.donate')}} 
+          <span id="id">0x7a7aa1489a3d8dc6e4538bf8e79167acaefc90fd</span>
+        </router-link>
         <div class="iconBg">
           <tips :text="tipText" :show="showTip"></tips>
           <i class="fa fa-copy id" @mouseenter="showTip=true" @mouseleave="resetTip" data-clipboard-target='#id'></i>
@@ -42,7 +44,8 @@
           <qrcode :show='showQr' :address='`0x7a7aa1489a3d8dc6e4538bf8e79167acaefc90fd`'></qrcode>
           <i class="fa fa-qrcode" @click="showQr=true" @mouseenter="showQrTip=true" @mouseleave="showQrTip=false"></i>
         </div>
-      </router-link>
+      </span>
+      
     </div>
   </section>
 </template>
@@ -198,10 +201,17 @@ export default {
         width: calc(100% - 50px);
         padding: 10px 0;
         a {
+          cursor: pointer;
           display: block;
           line-height: 26px;
           &:last-child {
             text-align: left;
+          }
+        }
+        span {
+          a {
+            cursor: pointer;
+            display: inline-block;
           }
         }
       }

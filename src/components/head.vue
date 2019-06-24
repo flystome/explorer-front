@@ -192,7 +192,7 @@ export default {
           display: block;
           color: #6c757e;
           line-height: 54px;
-          padding: 0 16px;
+          padding: 0 14px;
           font-size: 14px;
         }
         .more {

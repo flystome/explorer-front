@@ -201,7 +201,9 @@ export default {
     this.getCurrency()
   },
   mounted () {
-    var clip = new Clipboard('.id')
+    var clip = new Clipboard('.id', {
+      container: document.getElementById()
+      })
     clip.on('success', () => {
       this.tipText = this.$t('tips.copied')
     })
