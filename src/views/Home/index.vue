@@ -101,7 +101,7 @@
                   </div>
                 </div>
                 <div class="flex2">
-                  <div class="fee">209 Vns</div>
+                  <div class="fee">157 Vns</div>
                   <p class="miner">{{$t("index.miner")}} <router-link class="hashLink" :to="`/address/${item.miner}`">{{ item.miner }}</router-link></p>
                   <p><router-link :to="`/txs/${item.hash}`">{{ item.txnCount }} Txns</router-link> in {{item.interval}} secs</p>
                 </div>
